@@ -5,6 +5,7 @@ package gtk
 #include <glib-object.h>
 #include <gtk/gtk.h>
 #include "gobj.h"
+
 */
 import "C"
 
@@ -45,11 +46,24 @@ func (c *Container) GetResizeMode() ResizeMode {
 }
 
 // void    gtk_container_check_resize       (GtkContainer     *container);
+func (c *Container) CheckResize() {
+        C.gtk_container_check_resize(c.c)
+}
 
 // void     gtk_container_foreach      (GtkContainer       *container,
 // 				     GtkCallback         callback,
 // 				     gpointer            callback_data);
+
 // GList*   gtk_container_get_children     (GtkContainer       *container);
+func (c *Container) GetChildren() *GList {
+        ret := C.gtk_container_get_children(c.c)
+
+        if ret == nil {
+                return nil
+        }
+
+        return &GList{ret}
+}
 
 // void     gtk_container_propagate_draw   (GtkContainer   *container,
 // 					 GtkWidget      *child,
@@ -57,6 +71,10 @@ func (c *Container) GetResizeMode() ResizeMode {
 
 // void     gtk_container_set_focus_chain  (GtkContainer   *container,
 //                                          GList          *focusable_widgets);
+func (c *Container) SetFocusChain(focusable_widgets *GList) {
+        C.gtk_container_set_focus_chain(c.c, focusable_widgets.c)
+}
+
 // gboolean gtk_container_get_focus_chain  (GtkContainer   *container,
 // 					 GList         **focusable_widgets);
 // void     gtk_container_unset_focus_chain (GtkContainer  *container);

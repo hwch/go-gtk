@@ -387,6 +387,10 @@ type WindowGroup struct {
         c *C.GtkWindowGroup
 }
 
+type GList struct {
+        c *C.GList
+}
+
 const (
         WINDOW_TOPLEVEL WindowType = C.GTK_WINDOW_TOPLEVEL
         WINDOW_POPUP    WindowType = C.GTK_WINDOW_POPUP

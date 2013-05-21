@@ -1,4 +1,1 @@
-go-gtk
-======
-
-binding gtk in golang
+binding gtk in go

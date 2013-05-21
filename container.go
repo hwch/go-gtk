@@ -77,6 +77,7 @@ func (c *Container) SetFocusChain(focusable_widgets *GList) {
 
 // gboolean gtk_container_get_focus_chain  (GtkContainer   *container,
 // 					 GList         **focusable_widgets);
+
 // void     gtk_container_unset_focus_chain (GtkContainer  *container);
 // void   gtk_container_set_reallocate_redraws (GtkContainer    *container,
 // 					     gboolean         needs_redraws);

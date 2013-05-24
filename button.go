@@ -49,8 +49,36 @@ func (b *Button) Connect(sig string, f interface{}) {
 }
 
 // GtkWidget*     gtk_button_new_from_stock    (const gchar    *stock_id);
+func NewButtonFromStock(stock_id string) *Button {
+        s := _GString(stock_id)
+        defer _GFree(unsafe.Pointer(s))
+
+        ret := C.gtk_button_new_from_stock(s)
+        if ret != nil {
+                return ToButton(unsafe.Pointer(ret))
+        }
+
+        return nil
+}
+
 // GtkWidget*     gtk_button_new_with_mnemonic (const gchar    *label);
+func NewButtonWithMnemonic(label string) *Button {
+        s := _GString(label)
+        defer _GFree(unsafe.Pointer(s))
+
+        ret := C.gtk_button_new_with_mnemonic(s)
+        if ret != nil {
+                return ToButton(unsafe.Pointer(ret))
+        }
+
+        return nil
+}
+
 // void           gtk_button_clicked           (GtkButton      *button);
+func (b *Button) Clicked() {
+        C.gtk_button_clicked(b.c)
+}
+
 // GDK_DEPRECATED
 // void           gtk_button_pressed           (GtkButton      *button);
 // GDK_DEPRECATED
@@ -62,9 +90,17 @@ func (b *Button) Connect(sig string, f interface{}) {
 
 // void                  gtk_button_set_relief         (GtkButton      *button,
 // 						     GtkReliefStyle  newstyle);
+func (b *Button) SetRelief(newstyle ReliefStyle) {
+        C.gtk_button_set_relief(b.c, C.GtkReliefStyle(newstyle))
+}
+
 // GtkReliefStyle        gtk_button_get_relief         (GtkButton      *button);
+func (b *Button) GetRelief() ReliefStyle {
+        return ReliefStyle(C.gtk_button_get_relief(b.c))
+}
 
 // const gchar *         gtk_button_get_label          (GtkButton      *button);
+
 // void                  gtk_button_set_use_underline  (GtkButton      *button,
 // 						     gboolean        use_underline);
 // gboolean              gtk_button_get_use_underline  (GtkButton      *button);

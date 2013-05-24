@@ -235,6 +235,10 @@ func (win *Window) SetTitle(t string) {
 // void     gtk_window_set_default_size (GtkWindow   *window,
 //                                       gint         width,
 //                                       gint         height);
+func (w *Window) SetDefaultSize(width, height int32) {
+        C.gtk_window_set_default_size(w.c, C.gint(width), C.gint(height))
+}
+
 // void     gtk_window_get_default_size (GtkWindow   *window,
 //                                       gint        *width,
 //                                       gint        *height);

@@ -150,9 +150,15 @@ import (
 
 type WindowType C.int
 
+type ReliefStyle C.int
+
 type PositionType C.int
 
 type ResizeMode C.int
+
+type ResponseType C.int
+
+type DialogFlags C.int
 
 type Window struct {
         c *C.GtkWindow
@@ -391,6 +397,34 @@ type GList struct {
         c *C.GList
 }
 
+type Dialog struct {
+        c *C.GtkDialog
+}
+
+const (
+        RELIEF_NORMAL ReliefStyle = C.GTK_RELIEF_NORMAL
+        RELIEF_HALF   ReliefStyle = C.GTK_RELIEF_HALF
+        RELIEF_NONE   ReliefStyle = C.GTK_RELIEF_NONE
+)
+
+const (
+        RESPONSE_NONE         ResponseType = C.GTK_RESPONSE_NONE
+        RESPONSE_REJECT       ResponseType = C.GTK_RESPONSE_REJECT
+        RESPONSE_ACCEPT       ResponseType = C.GTK_RESPONSE_ACCEPT
+        RESPONSE_DELETE_EVENT ResponseType = C.GTK_RESPONSE_DELETE_EVENT
+        RESPONSE_OK           ResponseType = C.GTK_RESPONSE_OK
+        RESPONSE_CANCEL       ResponseType = C.GTK_RESPONSE_CANCEL
+        RESPONSE_CLOSE        ResponseType = C.GTK_RESPONSE_CLOSE
+        RESPONSE_YES          ResponseType = C.GTK_RESPONSE_YES
+        RESPONSE_NO           ResponseType = C.GTK_RESPONSE_NO
+        RESPONSE_APPLY        ResponseType = C.GTK_RESPONSE_APPLY
+        RESPONSE_HELP         ResponseType = C.GTK_RESPONSE_HELP
+)
+
+const (
+        DIALOG_MODAL               DialogFlags = C.GTK_DIALOG_MODAL
+        DIALOG_DESTROY_WITH_PARENT DialogFlags = C.GTK_DIALOG_DESTROY_WITH_PARENT
+)
 const (
         WINDOW_TOPLEVEL WindowType = C.GTK_WINDOW_TOPLEVEL
         WINDOW_POPUP    WindowType = C.GTK_WINDOW_POPUP
@@ -442,3 +476,98 @@ func Main() {
 func MainQuit() {
         C.gtk_main_quit()
 }
+
+// guint gtk_get_major_version (void) G_GNUC_CONST;
+func GetMajorVersion() uint32 {
+        return uint32(C.gtk_get_major_version())
+}
+
+// guint gtk_get_minor_version (void) G_GNUC_CONST;
+func GetMinorVersion() uint32 {
+        return uint32(C.gtk_get_minor_version())
+}
+
+// guint gtk_get_micro_version (void) G_GNUC_CONST;
+func GetMicroVersion() uint32 {
+        return uint32(C.gtk_get_micro_version())
+}
+
+// guint gtk_get_binary_age    (void) G_GNUC_CONST;
+func GetBinaryAge() uint32 {
+        return uint32(C.gtk_get_binary_age())
+}
+
+// guint gtk_get_interface_age (void) G_GNUC_CONST;
+func GetInterfaceAge() uint32 {
+        return uint32(C.gtk_get_interface_age())
+}
+
+// const gchar* gtk_check_version (guint   required_major,
+//                                 guint   required_minor,
+//                                 guint   required_micro);
+func CheckVersion(required_major, required_minor,
+        required_micro uint32) string {
+        ret := C.gtk_check_version(C.guint(required_major),
+                C.guint(required_minor),
+                C.guint(required_micro))
+        if ret == nil {
+                return ""
+        }
+        s := C.GoString((*C.char)(ret))
+        return s
+}
+
+// gboolean gtk_parse_args           (int    *argc,
+//                                    char ***argv);
+
+// gboolean gtk_init_check           (int    *argc,
+//                                    char ***argv);
+
+// gboolean gtk_init_with_args       (gint                 *argc,
+//                                    gchar              ***argv,
+//                                    const gchar          *parameter_string,
+//                                    const GOptionEntry   *entries,
+//                                    const gchar          *translation_domain,
+//                                    GError              **error);
+
+// GOptionGroup *gtk_get_option_group (gboolean open_default_display);
+
+// void           gtk_disable_setlocale    (void);
+// PangoLanguage *gtk_get_default_language (void);
+// gboolean       gtk_events_pending       (void);
+
+// void       gtk_main_do_event       (GdkEvent           *event);
+// void       gtk_main                (void);
+// guint      gtk_main_level          (void);
+// void       gtk_main_quit           (void);
+// gboolean   gtk_main_iteration      (void);
+// gboolean   gtk_main_iteration_do   (gboolean            blocking);
+
+// gboolean   gtk_true                (void) G_GNUC_CONST;
+// gboolean   gtk_false               (void) G_GNUC_CONST;
+
+// void       gtk_grab_add            (GtkWidget          *widget);
+// GtkWidget* gtk_grab_get_current    (void);
+// void       gtk_grab_remove         (GtkWidget          *widget);
+
+// void       gtk_device_grab_add     (GtkWidget          *widget,
+//                                     GdkDevice          *device,
+//                                     gboolean            block_others);
+// void       gtk_device_grab_remove  (GtkWidget          *widget,
+//                                     GdkDevice          *device);
+
+// GDK_DEPRECATED_IN_3_4
+// guint      gtk_key_snooper_install (GtkKeySnoopFunc snooper,
+//                                     gpointer        func_data);
+// GDK_DEPRECATED_IN_3_4
+// void       gtk_key_snooper_remove  (guint           snooper_handler_id);
+
+// GdkEvent * gtk_get_current_event        (void);
+// guint32    gtk_get_current_event_time   (void);
+// gboolean   gtk_get_current_event_state  (GdkModifierType *state);
+// GdkDevice *gtk_get_current_event_device (void);
+
+// GtkWidget *gtk_get_event_widget         (GdkEvent        *event);
+
+// void       gtk_propagate_event          (GtkWidget       *widget,
+//                                          GdkEvent        *event);

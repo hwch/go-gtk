@@ -453,14 +453,15 @@ func ToWindowGroup(ip unsafe.Pointer) *WindowGroup {
         return &WindowGroup{(*C.GtkWindowGroup)(unsafe.Pointer(gt))}
 }
 
+func ToDialog(ip unsafe.Pointer) *Dialog {
+        tp := C.gtk_dialog_get_type()
+        gt := C.g_type_check_instance_cast((*C.GTypeInstance)(ip), tp)
+        return &Dialog{(*C.GtkDialog)(unsafe.Pointer(gt))}
+}
+
 /*
 
 
-func ToHSV(ip unsafe.Pointer) *HSV {
-        tp := C.gtk_hsv_get_type()
-        gt := C.g_type_check_instance_cast((*C.GTypeInstance)(ip), tp)
-        return (*C.GtkHSV)(unsafe.Pointer(gt))
-}
 func ToHSV(ip unsafe.Pointer) *HSV {
         tp := C.gtk_hsv_get_type()
         gt := C.g_type_check_instance_cast((*C.GTypeInstance)(ip), tp)
